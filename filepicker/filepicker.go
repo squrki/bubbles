@@ -24,13 +24,13 @@ var (
 	singlePaneStyle          = lipgloss.NewStyle().
 					Border(lipgloss.NormalBorder(), false, false, false, false).
 					MarginRight(2).
-					Height(listHeight - 4).
+					Height(listHeight - 2).
 					Width(listWidth - 2)
 
 	dualPaneStyle = lipgloss.NewStyle().
 			Border(lipgloss.NormalBorder(), false, true, false, false).
 			MarginRight(2).
-			Height(listHeight - 4).
+			Height(listHeight - 2).
 			Width(listWidth/2 - 2)
 )
 
@@ -251,25 +251,15 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case readDirMsg:
 		m.files = msg
-		m.max = m.Height
+		m.max = m.Height - 1
 	case tea.WindowSizeMsg:
 		listWidth, listHeight, _ = terminal.GetSize(0)
 		if m.AutoHeight {
 			m.Height = msg.Height - marginBottom
 		}
-		m.max = m.Height
-		singlePaneStyle = singlePaneStyle.Height(m.Height - 4).Width(listWidth - 2)
-		dualPaneStyle = dualPaneStyle.Height(m.Height - 4).Width(listWidth/2 - 2)
-		// singlePaneStyle = lipgloss.NewStyle().
-		//	Border(lipgloss.NormalBorder(), false, false, false, false).
-		//	MarginRight(2).
-		//	Height(m.Height - 5).
-		//	Width(listWidth - 2)
-		// dualPaneStyle = lipgloss.NewStyle().
-		//	Border(lipgloss.NormalBorder(), false, true, false, false).
-		//	MarginRight(2).
-		//	Height(m.Height - 5).
-		//	Width(listWidth/2 - 2)
+		m.max = m.Height - 1
+		singlePaneStyle = singlePaneStyle.Height(m.Height - 2).Width(listWidth - 2)
+		dualPaneStyle = dualPaneStyle.Height(m.Height - 2).Width(listWidth/2 - 2)
 	case tea.KeyMsg:
 		switch {
 		case key.Matches(msg, m.KeyMap.GoToTop):
